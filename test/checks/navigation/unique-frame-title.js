@@ -1,32 +1,107 @@
 describe('unique-frame-title', function() {
 	'use strict';
 
+	var fixture = document.getElementById('fixture');
+	var shadowSupported = axe.testUtils.shadowSupport.v1;
+	var shadowCheckSetup = axe.testUtils.shadowCheckSetup;
+	var queryFixture = axe.testUtils.queryFixture;
+	var check = checks['unique-frame-title'];
 	var checkContext = axe.testUtils.MockCheckContext();
+	var options = {};
 
 	afterEach(function() {
+		fixture.innerHTML = '';
 		checkContext.reset();
+		axe._tree = undefined;
 	});
 
-	it('should log title to data and return true', function() {
-		assert.isTrue(
-			checks['unique-frame-title'].evaluate.call(checkContext, {
-				title: 'bananas'
-			})
-		);
-		assert.equal(checkContext._data, 'bananas');
-	});
+	function getFrameFixture(title, src, isShadow, callback) {
+		var vNode;
 
-	it('should convert text to lower case', function() {
-		checks['unique-frame-title'].evaluate.call(checkContext, {
-			title: '\t  app\t \n \rle  '
+		if (isShadow) {
+			vNode = shadowCheckSetup(
+				'<div id="shadow"></div>',
+				'<iframe id="target" title="' + title + '"> </iframe>'
+			)[2];
+		} else {
+			vNode = queryFixture(
+				'<iframe id="target" title="' + title + '"> </iframe>'
+			);
+		}
+
+		vNode.actualNode.addEventListener('load', function() {
+			callback(vNode);
 		});
-		assert.equal(checkContext._data, 'app le');
+		vNode.actualNode.src = src;
+	}
+
+	it('returns undefined for `iframe` with no accessible name (no name after unicode and space characters are removed)', function(done) {
+		var title = ' ☀️ ';
+		var src = '../integration/rules/frame-title-unique/frames/page-one.html';
+		getFrameFixture(title, src, false, function(vNode) {
+			var actual = check.evaluate.call(
+				checkContext,
+				vNode.actualNode,
+				options,
+				vNode
+			);
+			assert.isUndefined(actual);
+			assert.isNull(checkContext._data);
+			done();
+		});
 	});
 
-	it('should take out space differences', function() {
-		checks['unique-frame-title'].evaluate.call(checkContext, {
-			title: 'APPLE'
+	it('returns true and sets `after` data when `iframe` has accessible name', function(done) {
+		var title = 'I am unique';
+		var src = '../integration/rules/frame-title-unique/frames/page-one.html';
+
+		getFrameFixture(title, src, false, function(vNode) {
+			var actual = check.evaluate.call(
+				checkContext,
+				vNode.actualNode,
+				options,
+				vNode
+			);
+			assert.isTrue(actual);
+			assert.hasAllKeys(checkContext._data, [
+				'name',
+				'parsedResource',
+				'resourceFrameTitle'
+			]);
+			assert.equal(checkContext._data.name, 'i am unique'.toLowerCase());
+			assert.equal(checkContext._data.parsedResource.pathname, 'page-one.html');
+			done();
 		});
-		assert.equal(checkContext._data, 'apple');
 	});
+
+	(shadowSupported ? it : xit)(
+		'returns true and sets `after` data when `iframe` has accessible name (in shadowDOM)',
+		function(done) {
+			var title = 'I am inside shadowDOM';
+			var src = '../integration/rules/frame-title-unique/frames/page-one.html';
+			getFrameFixture(title, src, true, function(vNode) {
+				var actual = check.evaluate.call(
+					checkContext,
+					vNode.actualNode,
+					options,
+					vNode
+				);
+				assert.isTrue(actual);
+				assert.hasAllKeys(checkContext._data, [
+					'name',
+					'parsedResource',
+					'resourceFrameTitle'
+				]);
+				assert.equal(
+					checkContext._data.name,
+					'i am inside shadowdom'.toLowerCase()
+				);
+				assert.equal(
+					checkContext._data.parsedResource.pathname,
+					'page-one.html'
+				);
+				done();
+			});
+		}
+	);
 });

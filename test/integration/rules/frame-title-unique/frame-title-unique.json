@@ -1,6 +1,14 @@
 {
 	"description": "frame-title-unique test",
 	"rule": "frame-title-unique",
-	"violations": [["#violation1"], ["#violation2"]],
-	"passes": [["#ignore1", "#pass1"], ["#pass2"]]
+	"passes": [
+		["#pass1"],
+		["#pass2"],
+		["#pass3"],
+		["#pass4"],
+		["#pass5"],
+		["#pass6"],
+		["#pass7"]
+	],
+	"incomplete": [["#incomplete1"], ["#incomplete2"]]
 }

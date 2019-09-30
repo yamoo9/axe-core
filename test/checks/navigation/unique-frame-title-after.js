@@ -2,52 +2,120 @@
 describe('unique-frame-title-after', function() {
 	'use strict';
 
-	var checkContext = axe.testUtils.MockCheckContext();
+	var check = checks['unique-frame-title'];
 
-	afterEach(function() {
-		checkContext.reset();
+	function assertResult(
+		result,
+		expectedData,
+		expectedRelatedNodes,
+		expectedResult
+	) {
+		assert.deepEqual(result.data, expectedData);
+		assert.deepEqual(result.relatedNodes, expectedRelatedNodes);
+		assert.equal(result.result, expectedResult);
+	}
+
+	it('sets results of check result to `undefined` if identical `iframes` but different purpose (resource titles will be compared)', function() {
+		var nodeOneData = {
+			data: {
+				name: 'incomplete 1',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'page-one.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page one'
+			},
+			relatedNodes: ['nodeOfPageOne'],
+			result: true
+		};
+		var nodeTwoData = {
+			data: {
+				name: 'incomplete 1',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'page-two.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page two'
+			},
+			relatedNodes: ['nodeOfPageTwo'],
+			result: true
+		};
+
+		var checkResults = [nodeOneData, nodeTwoData];
+		var results = check.after(checkResults);
+
+		assert.lengthOf(results, 1);
+		assertResult(results[0], nodeOneData.data, ['nodeOfPageTwo'], undefined);
 	});
 
-	it('should remove any check whose data only appears once', function() {
-		var result = checks['unique-frame-title'].after([
-			{
-				data: 'bananas'
+	it('sets results of check result to `true` if identical `iframes` with same purpose (resource titles match, although pathnames are different)', function() {
+		var nodeOneData = {
+			data: {
+				name: 'pass me',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'page-one.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page one'
 			},
-			{
-				data: 'monkeys'
+			relatedNodes: ['nodeOfPageOne'],
+			result: true
+		};
+		var nodeTwoData = {
+			data: {
+				name: 'pass me',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'page-one-copy.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page one'
 			},
-			{
-				data: 'bananas'
-			},
-			{
-				data: 'apples'
-			},
-			{
-				data: 'monkeys'
-			}
-		]);
+			relatedNodes: ['nodeOfPageOneCopy'],
+			result: true
+		};
+		var checkResults = [nodeOneData, nodeTwoData];
+		var results = check.after(checkResults);
 
-		assert.deepEqual(result, [
-			{
-				data: 'bananas',
-				result: true
+		assert.lengthOf(results, 1);
+		assertResult(results[0], nodeOneData.data, ['nodeOfPageOneCopy'], true);
+	});
+
+	it('sets results of check result to `true` if non identical `iframes`', function() {
+		var nodeOneData = {
+			data: {
+				name: 'earth ',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'earth.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page earth'
 			},
-			{
-				data: 'monkeys',
-				result: true
+			relatedNodes: ['earth'],
+			result: true
+		};
+		var nodeTwoData = {
+			data: {
+				name: 'venus',
+				parsedResource: {
+					hostname: 'localhost',
+					pathname: 'venus.html',
+					port: '9876'
+				},
+				resourceFrameTitle: 'page venus'
 			},
-			{
-				data: 'bananas',
-				result: true
-			},
-			{
-				data: 'apples',
-				result: false
-			},
-			{
-				data: 'monkeys',
-				result: true
-			}
-		]);
+			relatedNodes: ['venus'],
+			result: true
+		};
+		var checkResults = [nodeOneData, nodeTwoData];
+		var results = check.after(checkResults);
+
+		assert.lengthOf(results, 2);
+		assertResult(results[0], nodeOneData.data, [], true);
+		assertResult(results[1], nodeTwoData.data, [], true);
 	});
 });
