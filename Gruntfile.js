@@ -368,7 +368,7 @@ module.exports = function(grunt) {
 		'configure',
 		'babel',
 		'concat:engine',
-		'uglify',
+		// 'uglify',
 		'aria-supported'
 	]);
 
