@@ -150,7 +150,7 @@ axe.configure({
 
 ## ARIA 역할 및 속성
 
-Refer [axe-core ARIA support](./doc/aria-supported.md) for a complete list of ARIA supported roles and attributes by axe.
+axe가 지원하는 ARIA 역할, 속성 전체 목록은 [axe-core ARIA 지원](./doc/aria-supported.md)을 참고하세요.
 
 ## 기여
 
