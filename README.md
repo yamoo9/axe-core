@@ -98,7 +98,7 @@ axe-core에서 실행 가능한 전체 규칙 목록은 [doc/rule-descriptions.m
 
 ## 다국어 지원
 
- <langcode>.json.. 기본 설정 대신이 로케일을 사용하여 ax를 빌드하려면 다음과 같이 --lang플래그로 ax를 실행하십시오 .
+`<langcode>.json` 기본 설정 대신이 로케일을 사용하여 Axe를 빌드하려면 다음과 같이 `--lang` 플래그로 Axe를 실행합니다.
 
 Axe는 다국어를 지원합니다. `./locales` 디렉토리에 언어 로케일 파일을 추가해 사용할 수 있습니다. 
 이 파일은 `<langcode>.json` 방식으로 이름이 지정 되어야 합니다. 기본 언어(en) 설정 대신 
