@@ -87,7 +87,7 @@ JSDOM과 호환 문제가 발생할 경우, 해당 규칙을 제외하고 테스
 
 ## 접근성 규칙
 
-axe-core에서 실행 가능한 전체 규칙 목록은 [doc/rule-descriptions.md](./doc/rule-descriptions.md)을 참고하세요.
+axe-core에서 실행 가능한 [전체 규칙 목록](./doc/rule-descriptions.md)을 참고하세요.
 
 ## API 패키지 콘텐츠
 
