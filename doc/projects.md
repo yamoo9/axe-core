@@ -1,14 +1,14 @@
-# Projects that use axe-core
+# axe-core를 사용하는 프로젝트
 
-Add your project/integration to this file and submit a pull request.
+이 파일에 여러분의 프로젝트 또는 인테그레이션을 추가하고 요청(Pull Request) 하세요.
 
-## Deque Projects
+## Deque 프로젝트
 
-1. [WorldSpace Attest](https://www.deque.com/products/worldspace-attest/)
-1. [WorldSpace Assure](https://www.deque.com/products/worldspace-assure/)
-1. [WorldSpace Comply](https://www.deque.com/products/worldspace-comply/)
-1. [Axe Chrome Extension](https://chrome.google.com/webstore/detail/axe/lhdoppojpmngadmnindnejefpokejbdd)
-1. [Axe Firefox Extension](https://addons.mozilla.org/en-US/firefox/addon/axe-devtools/)
+1. [WorldSpace 증명(Attest)](https://www.deque.com/products/worldspace-attest/)
+1. [WorldSpace 보장(Assure)](https://www.deque.com/products/worldspace-assure/)
+1. [WorldSpace 준수(Comply)](https://www.deque.com/products/worldspace-comply/)
+1. [Axe Chrome 확장(Extension)](https://chrome.google.com/webstore/detail/axe/lhdoppojpmngadmnindnejefpokejbdd)
+1. [Axe Firefox 확장(Extension)](https://addons.mozilla.org/en-US/firefox/addon/axe-devtools/)
 1. [axe-cli](https://www.npmjs.com/package/axe-cli)
 1. [axe-webdriverjs](https://www.npmjs.com/package/axe-webdriverjs)
 1. [grunt-axe-webdriver](https://www.npmjs.com/package/grunt-axe-webdriver)
@@ -16,7 +16,7 @@ Add your project/integration to this file and submit a pull request.
 1. [axe-matchers (Ruby)](https://github.com/dequelabs/axe-matchers)
 1. [axe-selenium-java](https://github.com/dequelabs/axe-selenium-java)
 
-## Community Projects
+## 커뮤니티 프로젝트
 
 1. [Lighthouse](https://github.com/GoogleChrome/lighthouse)
 1. [Webhint.io](https://webhint.io/)
