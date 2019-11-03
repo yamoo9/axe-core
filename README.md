@@ -104,7 +104,7 @@ Axe는 다국어를 지원합니다. `./locales` 디렉토리에 언어 로케�
 이 파일은 `<langcode>.json` 방식으로 이름이 지정 되어야 합니다. 기본 언어(en) 설정 대신 
 특정 언어를 사용해 Axe로 빌드하려면 `--lang` 플래그를 추가합니다.
 
-```sh
+```console
 $ grunt build --lang=ko
 ```
 
